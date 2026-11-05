@@ -1,14 +1,16 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 import useAuth from '../hooks/useAuth'
+import useCart from '../hooks/useCart'
 
 const linkClass = ({ isActive }) =>
-  `rounded-md px-3 py-2 text-sm font-medium transition ${
+  `flex items-center rounded-md px-3 py-2 text-sm font-medium transition ${
     isActive ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-100'
   }`
 
 export default function Navbar() {
   const { user, canCreate, logout } = useAuth()
+  const { totalItems } = useCart()
   const navigate = useNavigate()
 
   const handleLogout = () => {
@@ -23,9 +25,24 @@ export default function Navbar() {
         <span className="text-lg font-bold text-blue-600">📦 LogiOrders</span>
 
         <nav className="flex flex-wrap items-center gap-1">
-          <NavLink to="/products" className={linkClass}>Products</NavLink>
-          {canCreate && <NavLink to="/cart" className={linkClass}>Cart</NavLink>}
-          <NavLink to="/orders" className={linkClass}>Orders</NavLink>
+          <NavLink to="/products" className={linkClass}>
+            Products
+          </NavLink>
+
+          {canCreate && (
+            <NavLink to="/cart" className={linkClass}>
+              Cart
+              {totalItems > 0 && (
+                <span className="ml-1.5 rounded-full bg-blue-600 px-1.5 py-0.5 text-xs text-white">
+                  {totalItems}
+                </span>
+              )}
+            </NavLink>
+          )}
+
+          <NavLink to="/orders" className={linkClass}>
+            Orders
+          </NavLink>
         </nav>
 
         <div className="flex items-center gap-3">
