@@ -109,9 +109,3 @@ npm run test:concurrency
 ```
 
 It sends 20 simultaneous orders for a product that has 5 in stock. Expected result: 5 orders created, 15 rejected, final stock 0.
-
-## Assumptions
-
-- Registration accepts the ADMIN role, as defined in the assignment.
-- `access` applies only to USER and defaults to CREATE.
-- Item count = total quantity of items in the order.
