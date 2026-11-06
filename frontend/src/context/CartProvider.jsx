@@ -11,7 +11,6 @@ const loadCart = (key) => {
   }
 }
 
-
 export default function CartProvider({ children }) {
   const { user } = useAuth()
   const storageKey = user ? `cart_${user.id}` : null

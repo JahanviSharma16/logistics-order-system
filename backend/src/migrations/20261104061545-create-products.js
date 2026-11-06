@@ -58,6 +58,6 @@ module.exports = {
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable('products'); 
+    await queryInterface.dropTable('products');
   },
 };

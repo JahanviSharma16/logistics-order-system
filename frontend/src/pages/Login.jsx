@@ -60,12 +60,24 @@ export default function Login() {
         </div>
 
         <FormInput
-          id="email" name="email" type="email" label="Email" autoComplete="email"
-          value={form.email} onChange={handleChange} error={errors.email}
+          id="email"
+          name="email"
+          type="email"
+          label="Email"
+          autoComplete="email"
+          value={form.email}
+          onChange={handleChange}
+          error={errors.email}
         />
         <FormInput
-          id="password" name="password" type="password" label="Password" autoComplete="current-password"
-          value={form.password} onChange={handleChange} error={errors.password}
+          id="password"
+          name="password"
+          type="password"
+          label="Password"
+          autoComplete="current-password"
+          value={form.password}
+          onChange={handleChange}
+          error={errors.password}
         />
 
         <button

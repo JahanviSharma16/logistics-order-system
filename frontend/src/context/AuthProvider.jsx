@@ -12,7 +12,6 @@ const readStoredUser = () => {
 }
 
 export default function AuthProvider({ children }) {
-  // Initial values come from localStorage so a page refresh keeps you logged in
   const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY))
   const [user, setUser] = useState(readStoredUser)
 
@@ -23,7 +22,6 @@ export default function AuthProvider({ children }) {
     setUser(null)
   }, [])
 
-  // The axios interceptor fires this when the backend returns 401
   useEffect(() => {
     window.addEventListener('auth:logout', clearSession)
     return () => window.removeEventListener('auth:logout', clearSession)
@@ -46,7 +44,6 @@ export default function AuthProvider({ children }) {
       token,
       isAuthenticated: Boolean(token && user),
       isAdmin: user?.role === 'ADMIN',
-      // same rule as the backend's requireAccess('CREATE')
       canCreate: user?.role === 'ADMIN' || user?.access === 'CREATE',
       login,
       register,

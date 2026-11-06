@@ -74,7 +74,7 @@ const createOrder = async (user, items) => {
       itemRows.push({
         product_id: product.id,
         quantity: qty,
-        unit_price: fromCents(toCents(product.price)), 
+        unit_price: fromCents(toCents(product.price)),
       });
     }
 
@@ -136,7 +136,10 @@ const listOrders = async (user, { status, from, to, page, limit, offset }) => {
       ],
     },
     include: [{ model: User, as: 'user', attributes: ['id', 'email'] }],
-    order: [['created_at', 'DESC'], ['id', 'DESC']],
+    order: [
+      ['created_at', 'DESC'],
+      ['id', 'DESC'],
+    ],
     limit,
     offset,
   });
@@ -171,7 +174,7 @@ const cancelOrder = async (user, id) =>
 
     const items = await OrderItem.findAll({
       where: { order_id: order.id },
-      order: [['product_id', 'ASC']], 
+      order: [['product_id', 'ASC']],
       transaction: t,
     });
 
@@ -194,7 +197,10 @@ const confirmOrder = async (id) =>
     const order = await Order.findByPk(id, { lock: t.LOCK.UPDATE, transaction: t });
     if (!order) throw new AppError('Order not found', 404);
     if (order.status !== 'PENDING') {
-      throw new AppError(`Only PENDING orders can be confirmed (current status: ${order.status})`, 409);
+      throw new AppError(
+        `Only PENDING orders can be confirmed (current status: ${order.status})`,
+        409
+      );
     }
     order.status = 'CONFIRMED';
     await order.save({ transaction: t });

@@ -13,13 +13,11 @@ import NotFound from './pages/NotFound'
 export default function App() {
   return (
     <Routes>
-      {/* Only for logged-out users */}
       <Route element={<PublicOnlyRoute />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Route>
 
-      {/* Any logged-in user */}
       <Route element={<ProtectedRoute />}>
         <Route element={<Layout />}>
           <Route path="/" element={<Navigate to="/products" replace />} />
@@ -27,7 +25,6 @@ export default function App() {
           <Route path="/orders" element={<Orders />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
 
-          {/* ADMIN or USER with CREATE access */}
           <Route element={<ProtectedRoute requireCreate />}>
             <Route path="/cart" element={<Cart />} />
           </Route>

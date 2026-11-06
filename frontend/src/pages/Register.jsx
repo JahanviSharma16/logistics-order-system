@@ -18,7 +18,6 @@ export default function Register() {
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
 
-  // Same rules as the backend validator
   const validate = () => {
     const e = {}
     if (!form.email.trim()) e.email = 'Email is required'
@@ -69,21 +68,43 @@ export default function Register() {
         </div>
 
         <FormInput
-          id="email" name="email" type="email" label="Email" autoComplete="email"
-          value={form.email} onChange={handleChange} error={errors.email}
+          id="email"
+          name="email"
+          type="email"
+          label="Email"
+          autoComplete="email"
+          value={form.email}
+          onChange={handleChange}
+          error={errors.email}
         />
         <FormInput
-          id="password" name="password" type="password" label="Password" autoComplete="new-password"
-          value={form.password} onChange={handleChange} error={errors.password}
-        />
-        <FormInput
-          id="confirmPassword" name="confirmPassword" type="password" label="Confirm password"
+          id="password"
+          name="password"
+          type="password"
+          label="Password"
           autoComplete="new-password"
-          value={form.confirmPassword} onChange={handleChange} error={errors.confirmPassword}
+          value={form.password}
+          onChange={handleChange}
+          error={errors.password}
         />
         <FormInput
-          as="select" id="role" name="role" label="Role"
-          value={form.role} onChange={handleChange} error={errors.role}
+          id="confirmPassword"
+          name="confirmPassword"
+          type="password"
+          label="Confirm password"
+          autoComplete="new-password"
+          value={form.confirmPassword}
+          onChange={handleChange}
+          error={errors.confirmPassword}
+        />
+        <FormInput
+          as="select"
+          id="role"
+          name="role"
+          label="Role"
+          value={form.role}
+          onChange={handleChange}
+          error={errors.role}
         >
           <option value="USER">User</option>
           <option value="ADMIN">Admin</option>
@@ -91,8 +112,12 @@ export default function Register() {
 
         {form.role === 'USER' && (
           <FormInput
-            as="select" id="access" name="access" label="Access"
-            value={form.access} onChange={handleChange}
+            as="select"
+            id="access"
+            name="access"
+            label="Access"
+            value={form.access}
+            onChange={handleChange}
           >
             <option value="CREATE">Create (can place orders)</option>
             <option value="VIEW">View only</option>

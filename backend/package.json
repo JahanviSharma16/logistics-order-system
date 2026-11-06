@@ -1,8 +1,8 @@
 {
-  "name": "backend",
+  "name": "logistics-order-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "REST API for the logistics order management system",
+  "main": "src/server.js",
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
@@ -13,8 +13,6 @@
     "db:reset": "npm run migrate:undo && npm run migrate && npm run seed",
     "test:concurrency": "node scripts/concurrency-test.js"
   },
-  "keywords": [],
-  "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {

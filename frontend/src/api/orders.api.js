@@ -1,9 +1,8 @@
 import client from './client'
 
-export const createOrder = (items) =>
-  client.post('/orders', { items }).then((r) => r.data.data)
+export const createOrder = (items) => client.post('/orders', { items }).then((r) => r.data.data)
 
-export const getOrders = ({ status, from, to, page = 1, limit = 10 } = {}) =>
+export const getOrders = ({ status, from, to, page = 1, limit = 10, signal } = {}) =>
   client
     .get('/orders', {
       params: {
@@ -13,8 +12,10 @@ export const getOrders = ({ status, from, to, page = 1, limit = 10 } = {}) =>
         page,
         limit,
       },
+      signal,
     })
-    .then((r) => r.data) // { data, pagination }
+    .then((r) => r.data)
 
-export const cancelOrder = (id) =>
-  client.post(`/orders/${id}/cancel`).then((r) => r.data.data)
+export const cancelOrder = (id) => client.post(`/orders/${id}/cancel`).then((r) => r.data.data)
+
+export const confirmOrder = (id) => client.post(`/orders/${id}/confirm`).then((r) => r.data.data)

@@ -8,14 +8,12 @@ const client = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
-// Attach the JWT to every request
 client.interceptors.request.use((config) => {
   const token = localStorage.getItem(TOKEN_KEY)
   if (token) config.headers.Authorization = `Bearer ${token}`
   return config
 })
 
-// Token expired/invalid -> log out everywhere
 client.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -23,7 +21,7 @@ client.interceptors.response.use(
     if (error.response?.status === 401 && !isLoginCall) {
       localStorage.removeItem(TOKEN_KEY)
       localStorage.removeItem(USER_KEY)
-      window.dispatchEvent(new Event('auth:logout')) // AuthContext listens to this
+      window.dispatchEvent(new Event('auth:logout'))
     }
     return Promise.reject(error)
   }

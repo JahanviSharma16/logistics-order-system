@@ -1,1 +1,0 @@
-npm i express sequelize pg pg-hstore dotenv bcrypt jsonwebtoken cors helmet morgan express-validator

@@ -17,7 +17,6 @@ app.get('/health', (req, res) => {
   res.json({ success: true, message: 'API is running' });
 });
 
-// Routes
 app.use('/auth', require('./routes/auth.routes'));
 app.use('/products', require('./routes/product.routes'));
 app.use('/orders', require('./routes/order.routes'));

@@ -49,7 +49,7 @@ const getStock = async (token) => {
   const after = await getStock(token);
   const expectedSuccess = Math.min(REQUESTS, Math.floor(before / QTY));
 
-  console.log(`✅ Created: ${succeeded}   ⛔ Insufficient stock: ${rejected}   ❓ Other: ${other}`);
+  console.log(`Created: ${succeeded} | Insufficient stock: ${rejected} | Other: ${other}`);
   console.log(`${SKU} stock after: ${after}`);
 
   const ok =
@@ -59,7 +59,11 @@ const getStock = async (token) => {
     other === 0;
 
   console.log(ok ? '\nPASS: no overselling, stock is consistent' : '\nFAIL: inconsistent result');
-  if (other) console.log('Unexpected responses:', results.filter((r) => ![201, 409].includes(r.status)));
+  if (other)
+    console.log(
+      'Unexpected responses:',
+      results.filter((r) => ![201, 409].includes(r.status))
+    );
   process.exit(ok ? 0 : 1);
 })().catch((err) => {
   console.error(err.message);

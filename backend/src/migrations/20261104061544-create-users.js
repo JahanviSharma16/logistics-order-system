@@ -37,7 +37,6 @@ module.exports = {
 
   async down(queryInterface) {
     await queryInterface.dropTable('users');
-    // Postgres creates separate ENUM types; drop them so re-running works
     await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_users_role";');
     await queryInterface.sequelize.query('DROP TYPE IF EXISTS "enum_users_access";');
   },

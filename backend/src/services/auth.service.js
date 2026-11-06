@@ -20,9 +20,8 @@ const register = async ({ email, password, role, access }) => {
     access: role === 'ADMIN' ? null : access || 'CREATE',
   });
 
-  return user; 
+  return user;
 };
-
 
 const login = async ({ email, password }) => {
   const user = await User.scope('withPassword').findOne({ where: { email } });

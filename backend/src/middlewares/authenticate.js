@@ -3,7 +3,6 @@ const AppError = require('../utils/AppError');
 const { verifyToken } = require('../utils/jwt');
 const { User } = require('../models');
 
-
 module.exports = asyncHandler(async (req, res, next) => {
   const header = req.headers.authorization || '';
   const [scheme, token] = header.split(' ');

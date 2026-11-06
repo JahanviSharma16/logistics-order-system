@@ -6,4 +6,4 @@ export const getProducts = ({ search = '', page = 1, limit = 10, signal } = {}) 
       params: { search: search || undefined, page, limit },
       signal,
     })
-    .then((r) => r.data) // { data, pagination }
+    .then((r) => r.data)

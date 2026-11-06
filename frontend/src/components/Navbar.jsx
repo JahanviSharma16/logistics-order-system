@@ -22,7 +22,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-10 border-b border-gray-200 bg-white">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-        <span className="text-lg font-bold text-blue-600">📦 LogiOrders</span>
+        <span className="text-lg font-bold text-blue-600">LogiOrders</span>
 
         <nav className="flex flex-wrap items-center gap-1">
           <NavLink to="/products" className={linkClass}>

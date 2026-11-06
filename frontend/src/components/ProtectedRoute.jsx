@@ -1,7 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import useAuth from '../hooks/useAuth'
 
-
 export default function ProtectedRoute({ roles, requireCreate = false }) {
   const { isAuthenticated, user, canCreate } = useAuth()
   const location = useLocation()

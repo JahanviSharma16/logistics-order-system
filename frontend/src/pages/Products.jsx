@@ -21,8 +21,6 @@ export default function Products() {
   const [reloadCount, setReloadCount] = useState(0)
   const debouncedSearch = useDebounce(search.trim(), 400)
 
-  // Every unique combination of inputs is one "query".
-  // We're loading whenever the last finished query isn't the current one.
   const queryKey = `${debouncedSearch}|${page}|${reloadCount}`
   const [result, setResult] = useState({ key: null, products: [], pagination: null, error: null })
   const loading = result.key !== queryKey
@@ -35,7 +33,7 @@ export default function Products() {
         setResult({ key: queryKey, products: data, pagination, error: null })
       )
       .catch((err) => {
-        if (controller.signal.aborted) return // replaced by a newer request
+        if (controller.signal.aborted) return
         setResult((prev) => ({
           ...prev,
           key: queryKey,
@@ -43,13 +41,12 @@ export default function Products() {
         }))
       })
 
-    // A newer search/page cancels this request -> old results never overwrite new ones
     return () => controller.abort()
   }, [debouncedSearch, page, queryKey])
 
   const handleSearchChange = (e) => {
     setSearch(e.target.value)
-    setPage(1) // new search always starts on page 1
+    setPage(1)
   }
 
   const handleAdd = (product) => {
@@ -60,7 +57,7 @@ export default function Products() {
   const { products, pagination, error } = result
   const firstLoad = loading && result.key === null
 
-  const ActionButton = ({ product }) => {
+  const renderAction = (product) => {
     if (!canCreate) return null
     const inCart = getQty(product.sku)
     const soldOut = product.stock_qty === 0
@@ -81,7 +78,9 @@ export default function Products() {
       <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold">Products</h1>
-          <p className="text-sm text-gray-500">Browse available stock{canCreate && ' and add items to your cart'}</p>
+          <p className="text-sm text-gray-500">
+            Browse available stock{canCreate && ' and add items to your cart'}
+          </p>
         </div>
 
         <div className="relative w-full sm:w-80">
@@ -106,14 +105,15 @@ export default function Products() {
       )}
 
       {firstLoad ? (
-        <div className="flex justify-center py-20"><Spinner size="lg" /></div>
+        <div className="flex justify-center py-20">
+          <Spinner size="lg" />
+        </div>
       ) : !error && products.length === 0 ? (
         <div className="rounded-xl border border-dashed border-gray-300 bg-white py-16 text-center text-gray-500">
           {debouncedSearch ? `No products match "${debouncedSearch}"` : 'No products available'}
         </div>
       ) : (
         <div className={`transition-opacity ${loading ? 'opacity-50' : ''}`}>
-          {/* Desktop: table */}
           <div className="hidden overflow-hidden rounded-xl border border-gray-200 bg-white md:block">
             <table className="w-full text-left text-sm">
               <thead className="bg-gray-50 text-xs uppercase text-gray-500">
@@ -131,17 +131,16 @@ export default function Products() {
                     <td className="px-4 py-3 font-medium">{p.name}</td>
                     <td className="px-4 py-3 font-mono text-gray-600">{p.sku}</td>
                     <td className="px-4 py-3 text-right">{formatCurrency(p.price)}</td>
-                    <td className="px-4 py-3 text-center"><StockBadge qty={p.stock_qty} /></td>
-                    {canCreate && (
-                      <td className="px-4 py-3 text-right"><ActionButton product={p} /></td>
-                    )}
+                    <td className="px-4 py-3 text-center">
+                      <StockBadge qty={p.stock_qty} />
+                    </td>
+                    {canCreate && <td className="px-4 py-3 text-right">{renderAction(p)}</td>}
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-          {/* Mobile: cards */}
           <div className="grid gap-3 md:hidden">
             {products.map((p) => (
               <div key={p.id} className="rounded-xl border border-gray-200 bg-white p-4">
@@ -154,7 +153,7 @@ export default function Products() {
                 </div>
                 <div className="mt-3 flex items-center justify-between">
                   <span className="font-semibold">{formatCurrency(p.price)}</span>
-                  <ActionButton product={p} />
+                  {renderAction(p)}
                 </div>
               </div>
             ))}
